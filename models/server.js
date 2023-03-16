@@ -7,7 +7,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT || 8000;
         this.routePaths = {
-
+            auth: '/api/auth'
         };
 
         this.middlewares();
@@ -18,6 +18,10 @@ class Server {
         this.app.use( cors() );
         this.app.use( express.json() );
         this.app.use( express.static('public') );
+    }
+
+    routes() {
+        this.app.use( this.routePaths.auth, require('../routes/auth') );
     }
 
     listen() {
