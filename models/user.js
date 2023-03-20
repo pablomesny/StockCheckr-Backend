@@ -23,6 +23,15 @@ const User = db.define( 'User', {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }
+},
+{
+    timestamps: false
 });
+
+User.sync().then( () => {
+    console.log('Users table created successfully');
+}).catch( ( error ) => {
+    console.log( 'Error creating Users table', error );
+})
 
 module.exports = User;
