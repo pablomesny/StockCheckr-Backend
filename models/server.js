@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const db = require('../database/connection');
 
 class Server {
 
@@ -10,7 +11,19 @@ class Server {
             auth: '/api/auth'
         };
 
+        this.dbConnection();
         this.middlewares();
+        this.routes();
+    }
+
+    async dbConnection() {
+        
+        try {
+            await db.authenticate();
+            console.log('DB Online');
+        } catch (error) {
+            throw new Error( error );
+        }
 
     }
 
