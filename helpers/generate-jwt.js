@@ -9,7 +9,7 @@ const generateJWT = ( uid = '' ) => {
         jwt.sign( payload, process.env.SECRETORPRIVATEKEY, {},
             ( err, token ) => {
                 if( err ) {
-                    console.log( error );
+                    console.log( err );
                     reject( err );
                 } else {
                     resolve( token );
