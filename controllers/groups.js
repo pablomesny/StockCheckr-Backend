@@ -24,8 +24,21 @@ const createGroup = async( req = request, res = response ) => {
 
 }
 
+const getGroups = async( req = request, res = response ) => {
+    
+    const { from = 0, limit = 5 } = req.query;
+
+    const { count, rows } = await Group.findAndCountAll({ where: { state: true },limit, offset: from });
+
+    res.json({
+        total: count,
+        groups: rows
+    })
+}
+
 
 
 module.exports = {
-    createGroup
+    createGroup,
+    getGroups
 }

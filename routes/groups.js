@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createGroup } = require('../controllers/groups');
+const { createGroup, getGroups } = require('../controllers/groups');
 const { groupExists } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
@@ -13,6 +13,8 @@ router.post( '/', [
     check( 'name' ).custom( groupExists ),
     validateFields
 ], createGroup);
+
+router.get( '/', getGroups );
 
 
 module.exports = router;
