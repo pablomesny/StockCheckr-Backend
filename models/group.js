@@ -31,7 +31,7 @@ const Group = db.define(
 
 Group.sync()
     .then(() => {
-        console.log('Groups table created successfully');
+        console.log('Groups table (re)created successfully');
     })
     .catch(error => {
         console.log('Error creating Groups table', error);

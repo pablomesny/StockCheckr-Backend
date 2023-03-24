@@ -9,7 +9,8 @@ class Server {
         this.port = process.env.PORT || 8000;
         this.routePaths = {
             auth: '/api/auth',
-            users: '/api/users'
+            users: '/api/users',
+            groups: '/api/groups'
         };
 
         this.dbConnection();
@@ -37,6 +38,7 @@ class Server {
     routes() {
         this.app.use( this.routePaths.auth, require('../routes/auth') );
         this.app.use( this.routePaths.users, require('../routes/users') );
+        this.app.use( this.routePaths.groups, require('../routes/groups') );
     }
 
     listen() {

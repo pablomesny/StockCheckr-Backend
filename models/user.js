@@ -34,7 +34,7 @@ const User = db.define(
 
 User.sync()
     .then(() => {
-        console.log('Users table created successfully');
+        console.log('Users table (re)created successfully');
     })
     .catch(error => {
         console.log('Error creating Users table', error);
