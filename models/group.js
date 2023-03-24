@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../database/connection');
+const User = require('./user');
 
 const Group = db.define(
     'Group',
@@ -11,6 +12,7 @@ const Group = db.define(
         },
         name: {
             type: DataTypes.STRING,
+            unique: true,
             allowNull: false
         },
         state: {
@@ -18,8 +20,10 @@ const Group = db.define(
             defaultValue: true
         },
         created_by: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
-                model: 'User',
+                model: User,
                 key: 'id'
             }
         }

@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const Group = require('../models/group');
 
 const userByEmailExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
@@ -8,8 +9,17 @@ const userByEmailExists = async( email = "" ) => {
     }
 }
 
+const groupExists = async( name = '' ) => {
+    const group = await Group.findOne({ where: { name } });
+
+    if( group ) {
+        throw new Error( 'Group name already exists' );
+    }
+}
+
 
 
 module.exports = {
-    userByEmailExists
+    userByEmailExists,
+    groupExists
 }
