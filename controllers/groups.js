@@ -14,6 +14,7 @@ const createGroup = async( req = request, res = response ) => {
         res.status(201).json({
             group
         })
+
     } catch (error) {
         console.log( error );
         res.status(500).json({
@@ -25,20 +26,52 @@ const createGroup = async( req = request, res = response ) => {
 }
 
 const getGroups = async( req = request, res = response ) => {
-    
+
     const { from = 0, limit = 5 } = req.query;
 
-    const { count, rows } = await Group.findAndCountAll({ where: { state: true },limit, offset: from });
+    try {
+        const { count, rows } = await Group.findAndCountAll({ where: { state: true },limit, offset: from });
+    
+        res.json({
+            total: count,
+            groups: rows
+        })
 
-    res.json({
-        total: count,
-        groups: rows
-    })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error retrieving groups'
+        })
+    }
+}
+
+const updateGroupState = async( req = request, res = response ) => {
+    const { id } = req.params;
+    const { state } = req.body;
+
+    try {
+        await Group.update( { state }, { where: { id } });
+
+        const group = await Group.findByPk( id );
+    
+        res.json({
+            group
+        })
+
+    } catch (error) {
+        console.log( error );
+        res.status(500).json({
+            ok: false,
+            msg: 'Error updating group'
+        })
+    }
 }
 
 
 
 module.exports = {
     createGroup,
-    getGroups
+    getGroups,
+    updateGroupState
 }

@@ -1,11 +1,13 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createGroup, getGroups } = require('../controllers/groups');
-const { groupExists } = require('../middlewares/db-validators');
+const { createGroup, getGroups, updateGroupState } = require('../controllers/groups');
+const { groupExists, groupByIdExists } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
 
 const router = new Router();
+
+router.get( '/', getGroups );
 
 router.post( '/', [
     validateJWT,
@@ -14,7 +16,13 @@ router.post( '/', [
     validateFields
 ], createGroup);
 
-router.get( '/', getGroups );
-
+router.put( '/:id', [
+    validateJWT,
+    check( 'id', 'Group ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( groupByIdExists ),
+    check( 'state', 'State is mandatory' ).not().isEmpty(),
+    check( 'state', 'State can only be setted to a boolean value' ).isBoolean(),
+    validateFields
+], updateGroupState);
 
 module.exports = router;

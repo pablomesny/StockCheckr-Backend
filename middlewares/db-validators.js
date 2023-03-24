@@ -17,9 +17,18 @@ const groupExists = async( name = '' ) => {
     }
 }
 
+const groupByIdExists = async( id = '' ) => {
+    const group = await Group.findByPk( id );
+
+    if( !group ) {
+        throw new Error( 'Group by ID does not exists' );
+    }
+}
+
 
 
 module.exports = {
     userByEmailExists,
-    groupExists
+    groupExists,
+    groupByIdExists
 }
