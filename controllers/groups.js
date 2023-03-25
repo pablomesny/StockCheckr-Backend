@@ -12,6 +12,7 @@ const createGroup = async( req = request, res = response ) => {
         await group.save();
         
         res.status(201).json({
+            ok: true,
             group
         })
 
@@ -33,6 +34,7 @@ const getGroups = async( req = request, res = response ) => {
         const { count, rows } = await Group.findAndCountAll({ where: { state: true },limit, offset: from });
     
         res.json({
+            ok: true,
             total: count,
             groups: rows
         })
@@ -72,6 +74,7 @@ const updateGroup = async( req = request, res = response ) => {
         const group = await Group.findByPk( id );
     
         res.json({
+            ok: true,
             group
         })
 
