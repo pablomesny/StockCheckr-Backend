@@ -46,12 +46,28 @@ const getGroups = async( req = request, res = response ) => {
     }
 }
 
-const updateGroupState = async( req = request, res = response ) => {
+const updateGroup = async( req = request, res = response ) => {
     const { id } = req.params;
-    const { state } = req.body;
+    const { body } = req;
+
+    const { name, state, ...rest } = body;
+
+    for( const [ key, value ] of Object.entries({ ...body }) ){
+
+        switch( key ) {
+            case 'name':
+                rest.name = value;
+                break;
+
+            case 'state':
+                rest.state = value;
+                break;
+        }
+
+    }
 
     try {
-        await Group.update( { state }, { where: { id } });
+        await Group.update( rest, { where: { id } } );
 
         const group = await Group.findByPk( id );
     
@@ -73,5 +89,5 @@ const updateGroupState = async( req = request, res = response ) => {
 module.exports = {
     createGroup,
     getGroups,
-    updateGroupState
+    updateGroup
 }
