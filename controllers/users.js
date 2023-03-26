@@ -13,6 +13,7 @@ const createUser = async( req = request, res = response ) => {
     await user.save();
 
     res.status(201).json({
+        ok: true,
         user
     })
 }

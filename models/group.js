@@ -1,30 +1,31 @@
 const { DataTypes } = require('sequelize');
 const db = require('../database/connection');
+const User = require('./user');
 
-const User = db.define(
-    'User',
+const Group = db.define(
+    'Group',
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        username: {
+        name: {
             type: DataTypes.STRING,
-            allowNull: false
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        password: {
-            type: DataTypes.STRING,
+            unique: true,
             allowNull: false
         },
         state: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
+        },
+        created_by: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: User,
+                key: 'id'
+            }
         }
     },
     {
@@ -32,12 +33,12 @@ const User = db.define(
     }
 );
 
-User.sync()
+Group.sync()
     .then(() => {
-        console.log('Users table (re)created successfully');
+        console.log('Groups table (re)created successfully');
     })
     .catch(error => {
-        console.log('Error creating Users table', error);
+        console.log('Error creating Groups table', error);
     });
 
-module.exports = User;
+module.exports = Group;
