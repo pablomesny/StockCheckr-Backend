@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const Group = require('../models/group');
 
-const userByEmailExists = async( email = "" ) => {
+const userByEmailDoesNotExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
 
     if( !user ) {
@@ -25,10 +25,18 @@ const groupByIdExists = async( id = '' ) => {
     }
 }
 
+const userByEmailExists = async( email = '' ) => {
+    const user = await User.findOne({ where: { email } });
+
+    if( user ) {
+        throw new Error( 'Email is already in use' );
+    }
+}
 
 
 module.exports = {
-    userByEmailExists,
+    userByEmailDoesNotExists,
     groupExists,
-    groupByIdExists
+    groupByIdExists,
+    userByEmailExists
 }
