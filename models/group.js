@@ -12,7 +12,6 @@ const Group = db.define(
         },
         name: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false
         },
         state: {
@@ -29,7 +28,13 @@ const Group = db.define(
         }
     },
     {
-        timestamps: false
+        timestamps: false,
+        indexes: [
+            {
+                unique: true,
+                fields: [ 'name', 'created_by' ]
+            }
+        ]
     }
 );
 
