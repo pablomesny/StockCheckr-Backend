@@ -9,8 +9,9 @@ const userByEmailDoesNotExists = async( email = "" ) => {
     }
 }
 
-const groupExists = async( name = '' ) => {
-    const group = await Group.findOne({ where: { name } });
+const groupExists = async( name = '', { req } ) => {
+    const { id } = req.user;
+    const group = await Group.findOne({ where: { name, created_by: id } });
 
     if( group ) {
         throw new Error( 'Group name already exists' );
