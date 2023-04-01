@@ -34,10 +34,21 @@ const userByEmailExists = async( email = '' ) => {
     }
 }
 
+const isGroupCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const group = await Group.findByPk( id );
+
+    if( uid !== group.created_by ) {
+        throw new Error( 'Group was not created by that user' );
+    }
+}
+
 
 module.exports = {
     userByEmailDoesNotExists,
     groupExists,
     groupByIdExists,
-    userByEmailExists
+    userByEmailExists,
+    isGroupCreatedByUser
 }

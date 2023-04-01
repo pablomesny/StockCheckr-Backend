@@ -87,10 +87,35 @@ const updateGroup = async( req = request, res = response ) => {
     }
 }
 
+const deleteGroup = async( req = request, res = response ) => {
+
+    const { id } = req.params;
+
+    try {
+        
+        const group = await Group.findByPk( id );
+
+        await group.destroy();
+
+        res.json({
+            ok: true,
+            msg: `Group ${ group.name } destroyed successfully`
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: `Error destroying group`
+        })
+    }
+}
+
 
 
 module.exports = {
     createGroup,
     getGroups,
-    updateGroup
+    updateGroup,
+    deleteGroup
 }
