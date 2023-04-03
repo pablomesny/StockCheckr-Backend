@@ -41,7 +41,7 @@ const createBrand = async( req = request, res = response ) => {
         console.log( error );
         res.status(500).json({
             ok: false,
-            msg: 'Error creating new brand'
+            msg: 'Error creating brand'
         })
     }
 }

@@ -1,7 +1,4 @@
-const { User } = require('../models');
-const AttributeGroup = require('../models/AttributeGroup');
-const Brand = require('../models/brand');
-const Group = require('../models/group');
+const { User, AttributeGroup, Group, Brand } = require('../models');
 
 const userByEmailDoesNotExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
