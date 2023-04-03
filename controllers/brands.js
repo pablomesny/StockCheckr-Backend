@@ -2,7 +2,8 @@ const { request, response } = require('express');
 const Brand = require('../models/brand');
 
 const getBrands = async( req = request, res = response ) => {
-    const { limit = 5, from = 0 } = req.body;
+    
+    const { limit = 5, from = 0 } = req.query;
 
     try {
         const { count, rows } = await Brand.findAndCountAll({ where: { state: true }, limit, offset: from });

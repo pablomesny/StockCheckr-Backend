@@ -11,7 +11,8 @@ class Server {
             auth: '/api/auth',
             users: '/api/users',
             groups: '/api/groups',
-            brands: '/api/brands'
+            brands: '/api/brands',
+            attributeGroups: '/api/attributes/groups'
         };
 
         this.dbConnection();
@@ -41,6 +42,7 @@ class Server {
         this.app.use( this.routePaths.users, require('../routes/users') );
         this.app.use( this.routePaths.groups, require('../routes/groups') );
         this.app.use( this.routePaths.brands, require('../routes/brands') );
+        this.app.use( this.routePaths.attributeGroups, require('../routes/attributeGroups') );
     }
 
     listen() {
