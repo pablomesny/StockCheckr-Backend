@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const Brand = require('../models/brand');
 const Group = require('../models/group');
 
 const userByEmailDoesNotExists = async( email = "" ) => {
@@ -44,8 +45,39 @@ const isGroupCreatedByUser = async( id = '', { req } ) => {
     }
 }
 
+const brandExists = async( name = '' ) => {
+    const { id } = req.user;
+
+    const brand = await Brand.findOne({ where: { name, created_by: id } });
+
+    if( brand ) {
+        throw new Error( 'Brand name already exists' );
+    }
+}
+
+const brandByIdExists = async( id = '' ) => {
+    const brand = await Brand.findOne({ where: { id }});
+
+    if( !brand ) {
+        throw new Error( 'Brand by ID does not exists' );
+    }
+}
+
+const isBrandCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const brand = await Brand.findByPk( id );
+
+    if( uid !== brand.created_by ) {
+        throw new Error( 'Brand was not created by that user' );
+    }
+}
+
 
 module.exports = {
+    brandExists,
+    brandByIdExists,
+    isBrandCreatedByUser,
     userByEmailDoesNotExists,
     groupExists,
     groupByIdExists,
