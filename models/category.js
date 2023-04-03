@@ -2,8 +2,9 @@ const { DataTypes } = require("sequelize");
 const db = require("../database/connection");
 const User = require("./user");
 
-const AttributeGroup = db.define(
-    'Attribute Group', {
+const Category = db.define(
+    'Category',
+    {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -25,15 +26,17 @@ const AttributeGroup = db.define(
                 key: 'id'
             }
         }
-    }, {
+    },
+    {
         timestamps: false,
         indexes: [
             {
                 unique: true,
                 fields: [ 'name', 'created_by' ]
             }
-        ]
-});
+        ]    
+    }
+);
 
 
-module.exports = AttributeGroup;
+module.exports = Category;

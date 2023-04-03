@@ -1,5 +1,5 @@
 const { request, response } = require('express');
-const AttributeGroup = require('../models/AttributeGroup');
+const { AttributeGroup } = require('../models');
 
 const getAttributeGroups = async( req = request, res = response ) => {
 
@@ -89,7 +89,7 @@ const updateAttributeGroup = async( req = request, res = response ) => {
 }
 
 const deleteAttributeGroup = async( req = request, res = response ) => {
-    
+
     const { id } = req.params;
 
     try {
