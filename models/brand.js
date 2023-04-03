@@ -36,4 +36,12 @@ const Brand = db.define(
         ]
 });
 
+Brand.sync()
+    .then( () => {
+        console.log( 'Brands table (re)created successfully' );
+    })
+    .catch( error => {
+        console.log( 'Error creating brands table', error );
+    })
+
 module.exports = Brand;

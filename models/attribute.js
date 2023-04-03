@@ -2,7 +2,6 @@ const { DataTypes } = require("sequelize");
 const db = require("../database/connection");
 const AttributeGroup = require("./attributeGroup");
 
-// TODO: add index for created_by in AttributeGroup
 const Attribute = db.define(
     'Attribute',
     {
@@ -26,7 +25,23 @@ const Attribute = db.define(
                 key: 'id'
             }
         }
+    }, {
+        timestamps: false,
+        indexes: [
+            {
+                unique: true,
+                fields: [ 'name', 'group' ]
+            }
+        ]
     }
 );
+
+Attribute.sync()
+    .then( () => {
+        console.log( 'Attributes table (re)created successfully' );
+    })
+    .catch( error => {
+        console.log( 'Error creating attributes table', error );
+    })
 
 module.exports = Attribute;

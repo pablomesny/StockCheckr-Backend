@@ -1,14 +1,22 @@
 const { request, response } = require('express');
 const Attribute = require('../models/attribute');
+const { Sequelize } = require('sequelize');
 
 const getAttributes = async( req = request, res = response ) => {
 
-    const { groupId } = req.params;
+    const { groupId, userId } = req.params;
     const { from = 0, limit = 5 } = req.query;
 
     try {
         
-        const { count, rows } = await Attribute.findAndCountAll({ where: { group: id }, limit, offset: from });
+        const { count, rows } = await Attribute.findAndCountAll({ 
+            where: { 
+                group: {
+                    [Op.in]: Sequelize.literal(
+                        `(SELECT id FROM "Attribute Groups" WHERE created_by = ${userId} AND id = ${groupId})`
+                    )
+                } 
+            }, limit, offset: from });
 
         res.json({
             ok: true,

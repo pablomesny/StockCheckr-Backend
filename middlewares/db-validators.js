@@ -8,6 +8,14 @@ const userByEmailDoesNotExists = async( email = "" ) => {
     }
 }
 
+const userByIdExists = async( id = '' ) => {
+    const user = await User.findByPk( id );
+
+    if( !user || !user.state ) {
+        throw new Error( 'User by ID does not exists' );
+    }
+}
+
 const groupExists = async( name = '', { req } ) => {
     const { id } = req.user;
     const group = await Group.findOne({ where: { name, created_by: id } });
@@ -126,5 +134,6 @@ module.exports = {
     attributeGroupExists,
     attributeGroupByIdExists,
     isAttributeGroupCreatedByUser,
-    attributeByIdExists
+    attributeByIdExists,
+    userByIdExists
 }

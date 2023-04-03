@@ -7,7 +7,7 @@ const validateJWT = require('../middlewares/validate-jwt');
 
 const router = new Router();
 
-router.get( '/', getGroups );
+router.get( '/:userId', getGroups );
 
 router.post( '/', [
     validateJWT,

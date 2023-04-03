@@ -35,5 +35,13 @@ const AttributeGroup = db.define(
         ]
 });
 
+AttributeGroup.sync()
+    .then( () => {
+        console.log( 'Attributes Group table (re)created successfully' );
+    })
+    .catch( error => {
+        console.log( 'Error creating Attributes Group table', error );
+    })
+
 
 module.exports = AttributeGroup;

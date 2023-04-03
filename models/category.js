@@ -38,5 +38,13 @@ const Category = db.define(
     }
 );
 
+Category.sync()
+    .then( () => {
+        console.log( 'Categories table (re)created successfully' );
+    })
+    .catch( error => {
+        console.log( 'Error creating categories table', error );
+    })
+
 
 module.exports = Category;

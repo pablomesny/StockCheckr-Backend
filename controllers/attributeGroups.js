@@ -3,10 +3,11 @@ const { AttributeGroup } = require('../models');
 
 const getAttributeGroups = async( req = request, res = response ) => {
 
+    const { userId } = req.params;
     const { from = 0, limit = 5 } = req.query;
 
     try {
-        const { count, rows } = await AttributeGroup.findAndCountAll({ where: { state: true }, limit, offset: from });
+        const { count, rows } = await AttributeGroup.findAndCountAll({ where: { created_by: userId }, limit, offset: from });
         
         res.json({
             ok: true,

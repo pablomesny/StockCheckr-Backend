@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { check } = requre('express-validator');
+const { check } = require('express-validator');
 const { getBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
 const { brandExists, brandByIdExists, isBrandCreatedByUser } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');

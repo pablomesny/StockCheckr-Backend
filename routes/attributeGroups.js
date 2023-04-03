@@ -7,7 +7,7 @@ const { attributeGroupExists, attributeGroupByIdExists, isAttributeGroupCreatedB
 
 const router = new Router();
 
-router.get( '/', getAttributeGroups );
+router.get( '/:userId', getAttributeGroups );
 
 router.post( '/', [
     validateJWT,
