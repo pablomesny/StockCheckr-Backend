@@ -1,4 +1,4 @@
-const { User, AttributeGroup, Group, Brand } = require('../models');
+const { User, AttributeGroup, Group, Brand, Attribute } = require('../models');
 
 const userByEmailDoesNotExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
@@ -98,6 +98,21 @@ const isAttributeGroupCreatedByUser = async( id = '', { req } ) => {
     }
 }
 
+const attributeByIdExists = async( id = '' ) => {
+    const attribute = await Attribute.findByPk( id );
+
+    if( !attribute ) {
+        throw new Error( 'Attribute by ID does not exists' );
+    }
+}
+
+// TODO: created_by from attributegroup
+const isAttributeCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const attribute = await Attribute.findOne({ where: { id}})
+}
+
 
 module.exports = {
     brandExists,
@@ -110,5 +125,6 @@ module.exports = {
     isGroupCreatedByUser,
     attributeGroupExists,
     attributeGroupByIdExists,
-    isAttributeGroupCreatedByUser
+    isAttributeGroupCreatedByUser,
+    attributeByIdExists
 }

@@ -3,6 +3,7 @@ const Group = require('../models/group');
 const Brand = require('../models/brand');
 const AttributeGroup = require('../models/attributeGroup');
 const Category = require('../models/category');
+const Attribute = require('../models/attribute');
 
 
 module.exports = {
@@ -10,5 +11,6 @@ module.exports = {
     Group,
     Brand,
     AttributeGroup,
-    Category
+    Category,
+    Attribute
 }

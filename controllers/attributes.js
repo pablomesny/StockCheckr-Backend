@@ -47,10 +47,76 @@ const createAttribute = async( req = request, res = response ) => {
             msg: 'Error creating attribute'
         })
     }
+}
 
+const updateAttribute = async( req = request, res = response ) => {
+
+    const { body } = req;
+    const { id } = req.params;
+
+    const { name, state, ...rest } = body;
+
+    for( const [ key, value ] of Object.entries({ ...body })) {
+        switch (key) {
+            case 'name':
+                rest.name = value;
+                break;
+
+            case 'state':
+                rest.state = value;
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    try {
+        
+        await Attribute.update( rest, { where: id });
+
+        const attribute = await Attribute.findByPk( id );
+
+        res.json({
+            ok: true,
+            attribute
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error while updating attribute'
+        })
+    }
+}
+
+const deleteAttribute = async( req = request, res = response ) => {
+
+    const { id } = req.params;
+
+    try {
+        
+        const attribute = await Attribute.findByPk( id );
+        attribute.destroy();
+
+        res.json({
+            ok: true,
+            msg: `Attribute ${ attribute.name } destroyed successfully`
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error while destroying attribute'
+        })
+    }
 }
 
 module.exports = {
     getAttributes,
-    createAttribute
+    createAttribute,
+    updateAttribute,
+    deleteAttribute
 }
