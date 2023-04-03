@@ -3,7 +3,7 @@ const { Category } = require('../models');
 
 const getCategories = async( req = request, res = response ) => {
 
-    const { from = 0, limit = 5 } = req.body;
+    const { from = 0, limit = 5 } = req.query;
 
     try {
         
