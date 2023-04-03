@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const AttributeGroup = require('../models/AttributeGroup');
 const Brand = require('../models/brand');
 const Group = require('../models/group');
 
@@ -45,7 +46,7 @@ const isGroupCreatedByUser = async( id = '', { req } ) => {
     }
 }
 
-const brandExists = async( name = '' ) => {
+const brandExists = async( name = '', { req } ) => {
     const { id } = req.user;
 
     const brand = await Brand.findOne({ where: { name, created_by: id } });
@@ -72,6 +73,33 @@ const isBrandCreatedByUser = async( id = '', { req } ) => {
         throw new Error( 'Brand was not created by that user' );
     }
 }
+const attributeGroupExists = async( name = '', { req } ) => {
+    const { id } = req.user;
+
+    const attributeGroup = await AttributeGroup.findOne({ where: { name, created_by: id }});
+
+    if( attributeGroup ) {
+        throw new Error( 'Attribute group name already exists' );
+    }
+}
+
+const attributeGroupByIdExists = async( id = '' ) => {
+    const attributeGroup = await AttributeGroup.findByPk( id );
+
+    if( !attributeGroup ) {
+        throw new Error( 'Attribute group by ID does not exists' );
+    }
+}
+
+const isAttributeGroupCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const attributeGroup = await AttributeGroup.findByPk( id );
+
+    if( uid !== attributeGroup.created_by ) {
+        throw new Error( 'Attribute group was not created by that user' );
+    }
+}
 
 
 module.exports = {
@@ -82,5 +110,8 @@ module.exports = {
     groupExists,
     groupByIdExists,
     userByEmailExists,
-    isGroupCreatedByUser
+    isGroupCreatedByUser,
+    attributeGroupExists,
+    attributeGroupByIdExists,
+    isAttributeGroupCreatedByUser
 }

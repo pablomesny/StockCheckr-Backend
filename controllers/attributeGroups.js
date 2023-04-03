@@ -21,12 +21,77 @@ const getAttributeGroups = async( req = request, res = response ) => {
             msg: 'Error retrieving attribute groups'
         })
     }
+}
 
+const createAttributeGroup = async( req = request, res = response ) => {
 
+    const { name } = req.body;
+    const { id } = req.user
+
+    try {
+        
+        const attributeGroup = await AttributeGroup.build({ name, created_by: id });
+
+        await attributeGroup.save();
+
+        res.status(201).json({
+            ok: true,
+            attributeGroup
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error creating attribute group'
+        })
+    }
+}
+
+const updateAttributeGroup = async( req = request, res = response ) => {
+
+    const { id } = req.params;
+    const { body } = req;
+
+    const { name, state, ...rest } = body;
+
+    for( const [ key, value ] of Object.entries({ ...body })) {
+        switch (key) {
+            case 'name':
+                rest.name = value;
+                break;
+        
+            case 'state':
+                rest.state = value;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    try {
+        await AttributeGroup.update( rest, { where: id } );
+
+        const attributeGroup = await AttributeGroup.findByPk( id );
+
+        res.json({
+            ok: true,
+            attributeGroup
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error updating attribute group'
+        })
+    }
 }
 
 
 
 module.exports = {
-    getAttributeGroups
+    getAttributeGroups,
+    createAttributeGroup,
+    updateAttributeGroup
 }
