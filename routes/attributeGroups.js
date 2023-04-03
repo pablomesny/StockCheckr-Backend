@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getAttributeGroups, createAttributeGroup, updateAttributeGroup } = require('../controllers/attributeGroups');
+const { getAttributeGroups, createAttributeGroup, updateAttributeGroup, deleteAttributeGroup } = require('../controllers/attributeGroups');
 const { check } = require('express-validator');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
@@ -25,6 +25,14 @@ router.put( '/:id', [
     check( 'state', 'State can only be setted to a boolean value' ).isBoolean(),
     validateFields
 ], updateAttributeGroup );
+
+router.delete( ':id', [
+    validateJWT,
+    check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( attributeGroupByIdExists ),
+    check( 'id' ).custom( isAttributeGroupCreatedByUser ),
+    validateFields
+], deleteAttributeGroup );
 
 
 

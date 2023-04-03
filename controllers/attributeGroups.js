@@ -88,10 +88,34 @@ const updateAttributeGroup = async( req = request, res = response ) => {
     }
 }
 
+const deleteAttributeGroup = async( req = request, res = response ) => {
+    
+    const { id } = req.params;
+
+    try {
+        const attributeGroup = await AttributeGroup.findByPk( id );
+        
+        await attributeGroup.destroy();
+
+        res.json({
+            ok: true,
+            msg: `Attribute group ${ attributeGroup.name } destroyed successfully`
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error destroying attribute group'
+        })
+    }
+}
+
 
 
 module.exports = {
     getAttributeGroups,
     createAttributeGroup,
-    updateAttributeGroup
+    updateAttributeGroup,
+    deleteAttributeGroup
 }
