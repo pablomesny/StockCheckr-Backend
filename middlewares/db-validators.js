@@ -129,6 +129,25 @@ const categoryExists = async( name = '' ) => {
     }
 }
 
+const categoryByIdExists = async( id = '' ) => {
+    const category = await Category.findByPk( id );
+
+    if( !category ) {
+        throw new Error( 'Category by ID does not exists' );
+    }
+}
+
+const isCategoryCreatedByUser = async( id = '', { req } ) => {
+
+    const { id } = req.user;
+
+    const category = await Category.findByPk( id );
+
+    if( id !== category.created_by ) {
+        throw new Error( 'Category was not created by that user' );
+    }
+}
+
 
 module.exports = {
     brandExists,
@@ -144,5 +163,6 @@ module.exports = {
     isAttributeGroupCreatedByUser,
     attributeByIdExists,
     userByIdExists,
-    categoryExists
+    categoryExists,
+    categoryByIdExists
 }

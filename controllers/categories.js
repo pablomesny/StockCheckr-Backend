@@ -50,8 +50,51 @@ const createCategory = async( req = request, res = response ) => {
     }
 }
 
+const updateCategory = async( req = request, res = response ) => {
+
+    const { id } = req.params;
+    const { body } = req;
+
+    const { name, state, ...rest } = body;
+
+    for( const [ key, value ] of Object.entries({ ...body })) {
+
+        switch (key) {
+            case 'name':
+                rest.name = value;
+                break;
+
+            case 'state':
+                rest.state = value;
+                break;
+        }
+
+    }
+
+    try {
+        
+        await Category.update( rest, { where: { id }});
+
+        const category = await Category.findByPk( id );
+
+        res.json({
+            ok: true,
+            category
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error updating category'
+        })
+    }
+
+}
+
 
 module.exports = {
     getCategories,
-    createCategory
+    createCategory,
+    updateCategory
 }

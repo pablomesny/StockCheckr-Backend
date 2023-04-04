@@ -12,6 +12,7 @@ router.get( '/:userId/:groupId', [
     check( 'groupId' ).custom( attributeGroupByIdExists ),
     check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
     check( 'userId' ).custom( userByIdExists ),
+    validateFields
 ], getAttributes );
 
 router.post( '/:groupId', [

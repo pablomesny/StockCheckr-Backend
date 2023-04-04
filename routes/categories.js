@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const { getCategories, createCategory } = require('../controllers/categories');
-const { userByIdExists, categoryExists } = require('../middlewares/db-validators');
+const { getCategories, createCategory, updateCategory } = require('../controllers/categories');
+const { userByIdExists, categoryExists, categoryByIdExists } = require('../middlewares/db-validators');
 const validateJWT = require('../middlewares/validate-jwt');
 const validateFields = require('../middlewares/validate-fields');
 
@@ -8,7 +8,8 @@ const router = new Router();
 
 router.get( '/:userId', [
     check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
-    check( 'userId' ).custom( userByIdExists )
+    check( 'userId' ).custom( userByIdExists ),
+    validateFields
 ], getCategories );
 
 router.post( '/', [
@@ -17,6 +18,13 @@ router.post( '/', [
     check( 'name' ).custom( categoryExists ),
     validateFields
 ], createCategory );
+
+router.put( '/:id', [
+    validateJWT,
+    check( 'id', 'ID is mandatory').not().isEmpty(),
+    check( 'id' ).custom( categoryByIdExists ),
+    validateFields
+], updateCategory );
 
 
 module.exports = router;

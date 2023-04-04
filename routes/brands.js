@@ -9,7 +9,8 @@ const router = new Router();
 
 router.get( '/:userId', [
     check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
-    check( 'userId' ).custom( userByIdExists )
+    check( 'userId' ).custom( userByIdExists ),
+    validateFields
 ], getBrands );
 
 router.post( '/', [
