@@ -25,7 +25,33 @@ const getCategories = async( req = request, res = response ) => {
     }
 }
 
+const createCategory = async( req = request, res = response ) => {
+
+    const { name } = req.body;
+    const { id } = req.user;
+
+    try {
+        
+        const category = await Category.build({ name, created_by: id });
+
+        await category.save();
+
+        res.status(201).json({
+            ok: true,
+            category
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error creating category'
+        })
+    }
+}
+
 
 module.exports = {
-    getCategories
+    getCategories,
+    createCategory
 }
