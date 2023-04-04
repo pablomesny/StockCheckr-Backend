@@ -124,7 +124,7 @@ const isAttributeCreatedByUser = async( id = '', { req } ) => {
 const categoryExists = async( name = '' ) => {
     const category = await Category.findOne({ where: { name }});
 
-    if( !category ) {
+    if( category ) {
         throw new Error( 'Category name already exists' );
     }
 }
