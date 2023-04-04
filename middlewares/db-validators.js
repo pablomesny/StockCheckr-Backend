@@ -164,5 +164,6 @@ module.exports = {
     attributeByIdExists,
     userByIdExists,
     categoryExists,
-    categoryByIdExists
+    categoryByIdExists,
+    isCategoryCreatedByUser
 }
