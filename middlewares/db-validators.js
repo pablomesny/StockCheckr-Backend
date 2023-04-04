@@ -139,11 +139,11 @@ const categoryByIdExists = async( id = '' ) => {
 
 const isCategoryCreatedByUser = async( id = '', { req } ) => {
 
-    const { id } = req.user;
+    const { id: uid } = req.user;
 
     const category = await Category.findByPk( id );
 
-    if( id !== category.created_by ) {
+    if( uid !== category.created_by ) {
         throw new Error( 'Category was not created by that user' );
     }
 }

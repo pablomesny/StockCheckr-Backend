@@ -30,7 +30,7 @@ router.put( '/:id', [
     validateFields
 ], updateBrand );
 
-router.delete( '/:id' [
+router.delete( '/:id', [
     validateJWT,
     check( 'id', 'ID is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( brandByIdExists ),

@@ -43,7 +43,7 @@ class Server {
         this.app.use( this.routePaths.auth, require('../routes/auth') );
         this.app.use( this.routePaths.users, require('../routes/users') );
         this.app.use( this.routePaths.groups, require('../routes/groups') );
-        // this.app.use( this.routePaths.brands, require('../routes/brands') );
+        this.app.use( this.routePaths.brands, require('../routes/brands') );
         this.app.use( this.routePaths.attributeGroups, require('../routes/attributeGroups') );
         this.app.use( this.routePaths.categories, require('../routes/categories') );
         this.app.use( this.routePaths.attributes, require('../models/attribute') );
