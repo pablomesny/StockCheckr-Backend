@@ -89,6 +89,29 @@ const updateCategory = async( req = request, res = response ) => {
             msg: 'Error updating category'
         })
     }
+}
+
+const deleteCategory = async( req = request, res = response ) => {
+
+    const { id } = req.params;
+
+    try {
+        
+        const category = await Category.findByPk( id );
+        category.destroy();
+
+        res.json({
+            ok: true,
+            msg: `Category ${ category.name } destroyed successfully`
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error destroying category'
+        })
+    }
 
 }
 
@@ -96,5 +119,6 @@ const updateCategory = async( req = request, res = response ) => {
 module.exports = {
     getCategories,
     createCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 }

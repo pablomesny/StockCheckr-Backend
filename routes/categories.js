@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getCategories, createCategory, updateCategory } = require('../controllers/categories');
+const { getCategories, createCategory, updateCategory, deleteCategory } = require('../controllers/categories');
 const { userByIdExists, categoryExists, categoryByIdExists, isCategoryCreatedByUser } = require('../middlewares/db-validators');
 const validateJWT = require('../middlewares/validate-jwt');
 const validateFields = require('../middlewares/validate-fields');
@@ -26,6 +26,14 @@ router.put( '/:id', [
     check( 'id' ).custom( isCategoryCreatedByUser ),
     validateFields
 ], updateCategory );
+
+router.delete( '/:id', [
+    validateJWT,
+    check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( categoryByIdExists ),
+    check( 'id' ).custom( isCategoryCreatedByUser ),
+    validateFields
+], deleteCategory );
 
 
 module.exports = router;
