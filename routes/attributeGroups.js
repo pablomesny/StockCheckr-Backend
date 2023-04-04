@@ -3,11 +3,14 @@ const { getAttributeGroups, createAttributeGroup, updateAttributeGroup, deleteAt
 const { check } = require('express-validator');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
-const { attributeGroupExists, attributeGroupByIdExists, isAttributeGroupCreatedByUser } = require('../middlewares/db-validators');
+const { attributeGroupExists, attributeGroupByIdExists, isAttributeGroupCreatedByUser, userByIdExists } = require('../middlewares/db-validators');
 
 const router = new Router();
 
-router.get( '/:userId', getAttributeGroups );
+router.get( '/:userId', [
+    check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
+    check( 'userId' ).custom( userByIdExists )
+], getAttributeGroups );
 
 router.post( '/', [
     validateJWT,

@@ -3,10 +3,11 @@ const Brand = require('../models/brand');
 
 const getBrands = async( req = request, res = response ) => {
     
+    const { userId: id } = req.params;
     const { limit = 5, from = 0 } = req.query;
 
     try {
-        const { count, rows } = await Brand.findAndCountAll({ where: { state: true }, limit, offset: from });
+        const { count, rows } = await Brand.findAndCountAll({ where: { created_by: id }, limit, offset: from });
 
         res.json({
             ok: true,

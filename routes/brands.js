@@ -1,13 +1,16 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { getBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
-const { brandExists, brandByIdExists, isBrandCreatedByUser } = require('../middlewares/db-validators');
+const { brandExists, brandByIdExists, isBrandCreatedByUser, userByIdExists } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
 
 const router = new Router();
 
-router.get( '/', getBrands );
+router.get( '/:userId', [
+    check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
+    check( 'userId' ).custom( userByIdExists )
+], getBrands );
 
 router.post( '/', [
     validateJWT,
