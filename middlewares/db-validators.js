@@ -119,6 +119,11 @@ const isAttributeCreatedByUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
     const attribute = await Attribute.findOne({ where: { id}})
+    const attributeGroup = await AttributeGroup.findByPk( attribute.group );
+
+    if( uid !== attributeGroup.created_by ) {
+        throw new Error( 'Attribute was not created by that user' );
+    }
 }
 
 const categoryExists = async( name = '' ) => {
@@ -162,6 +167,7 @@ module.exports = {
     attributeGroupByIdExists,
     isAttributeGroupCreatedByUser,
     attributeByIdExists,
+    isAttributeCreatedByUser,
     userByIdExists,
     categoryExists,
     categoryByIdExists,
