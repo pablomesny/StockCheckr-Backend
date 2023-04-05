@@ -62,10 +62,7 @@ const updateUser = async( req = request, res = response ) => {
             msg: 'Error updating user'
         })
     }
-
-
 }
-
 
 module.exports = {
     createUser,
