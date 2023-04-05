@@ -22,7 +22,6 @@ const updateUser = async( req = request, res = response ) => {
 
     const { body } = req;
     const { id } = req.params;
-    const { id: uid } = req.user;
 
     const { username, email, password, ...rest } = body;
 
