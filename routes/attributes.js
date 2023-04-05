@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { getAttributes, createAttribute, updateAttribute, deleteAttribute } = require('../controllers/attributes');
-const { attributeGroupByIdExists, attributeByIdExists, userByIdExists } = require('../middlewares/db-validators');
+const { attributeGroupByIdExists, attributeByIdExists, userByIdExists, isAttributeCreatedByUser } = require('../middlewares/db-validators');
 const validateJWT = require('../middlewares/validate-jwt');
 const validateFields = require('../middlewares/validate-fields');
 
@@ -23,21 +23,19 @@ router.post( '/:groupId', [
     validateFields
 ], createAttribute );
 
-// TODO: isAttributeCreatedByUser custom check
 router.put( '/:id', [
     validateJWT,
     check( 'id', 'ID is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( attributeByIdExists ),
-    check( 'id' ).custom(),
+    check( 'id' ).custom( isAttributeCreatedByUser ),
     validateFields
 ], updateAttribute );
 
-// TODO: isAttributeCreatedByUser custom check
 router.delete( '/:id', [
     validateJWT,
     check( 'id', 'ID is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( attributeByIdExists ),
-    check( 'id' ).custom(),
+    check( 'id' ).custom( isAttributeCreatedByUser ),
     validateFields
 ], deleteAttribute );
 

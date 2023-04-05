@@ -25,8 +25,6 @@ router.put( '/:id', [
     check( 'id', 'Group ID is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( groupByIdExists ),
     check( 'id' ).custom( isGroupCreatedByUser ),
-    check( 'state', 'State is mandatory' ).not().isEmpty(),
-    check( 'state', 'State can only be setted to a boolean value' ).isBoolean(),
     validateFields
 ], updateGroup);
 

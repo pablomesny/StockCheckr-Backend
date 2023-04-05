@@ -25,8 +25,6 @@ router.put( '/:id', [
     check( 'id', 'Id is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( brandByIdExists ),
     check( 'id' ).custom( isBrandCreatedByUser ),
-    check( 'state', 'State is mandatory' ).not().isEmpty(),
-    check( 'state', 'State can only be setted to a boolean value' ).isBoolean(),
     validateFields
 ], updateBrand );
 
