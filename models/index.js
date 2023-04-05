@@ -1,9 +1,10 @@
-const User = require('../models/user');
-const Group = require('../models/group');
-const Brand = require('../models/brand');
-const AttributeGroup = require('../models/attributeGroup');
-const Category = require('../models/category');
-const Attribute = require('../models/attribute');
+const User = require('./user');
+const Group = require('./group');
+const Brand = require('./brand');
+const AttributeGroup = require('./attributeGroup');
+const Category = require('./category');
+const Attribute = require('./attribute');
+const Product = require('./product');
 
 
 module.exports = {
@@ -12,5 +13,6 @@ module.exports = {
     Brand,
     AttributeGroup,
     Category,
-    Attribute
+    Attribute,
+    Product
 }
