@@ -41,6 +41,14 @@ const userByEmailExists = async( email = '' ) => {
     }
 }
 
+const isUserCreatedByTheSameUser = async( id, { req } ) => {
+    const { id: uid } = req.user;
+
+    if( id !== uid ) {
+        throw new Error( 'You can only modify your account' );
+    }
+}
+
 const isGroupCreatedByUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
@@ -169,6 +177,7 @@ module.exports = {
     attributeByIdExists,
     isAttributeCreatedByUser,
     userByIdExists,
+    isUserCreatedByTheSameUser,
     categoryExists,
     categoryByIdExists,
     isCategoryCreatedByUser
