@@ -52,7 +52,6 @@ const Product = db.define(
         },
         attribute: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             references: {
                 model: Attribute,
                 key: 'id'

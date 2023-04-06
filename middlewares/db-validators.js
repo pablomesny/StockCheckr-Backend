@@ -1,4 +1,4 @@
-const { User, AttributeGroup, Group, Brand, Attribute, Category } = require('../models');
+const { User, AttributeGroup, Group, Brand, Attribute, Category, Product } = require('../models');
 
 const userByEmailDoesNotExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
@@ -161,6 +161,15 @@ const isCategoryCreatedByUser = async( id = '', { req } ) => {
     }
 }
 
+const productExists = async( name = '', { req } ) => {
+    const { id } = req.user;
+    const product = await Product.findOne({ where: { name, created_by: id } });
+
+    if( product ) {
+        throw new Error( 'Product name already exists' );
+    }
+}
+
 
 module.exports = {
     brandExists,
@@ -180,5 +189,6 @@ module.exports = {
     isUserCreatedByTheSameUser,
     categoryExists,
     categoryByIdExists,
-    isCategoryCreatedByUser
+    isCategoryCreatedByUser,
+    productExists
 }
