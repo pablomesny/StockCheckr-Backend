@@ -1,6 +1,10 @@
 const { DataTypes } = require("sequelize");
 const db = require("../database/connection");
-const { Attribute, Brand, Category, Group, User } = require('./index');
+const Group = require("./group");
+const Brand = require("./brand");
+const Category = require("./category");
+const Attribute = require("./attribute");
+const User = require("./user");
 
 const Product = db.define(
     'Product',
@@ -89,7 +93,7 @@ Product.sync()
     .then( () => {
         console.log('Products table (re)created successfully');
     })
-    .catch( () => {
+    .catch( (error) => {
         console.log('Error creating products table', error);
     })
 

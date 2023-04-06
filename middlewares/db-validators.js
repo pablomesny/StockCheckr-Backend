@@ -126,7 +126,7 @@ const attributeByIdExists = async( id = '' ) => {
 const isAttributeCreatedByUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
-    const attribute = await Attribute.findOne({ where: { id}})
+    const attribute = await Attribute.findOne({ where: { id }})
     const attributeGroup = await AttributeGroup.findByPk( attribute.group );
 
     if( uid !== attributeGroup.created_by ) {

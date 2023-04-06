@@ -4,6 +4,7 @@ const validateJWT = require('../middlewares/validate-jwt');
 const { productExists, brandByIdExists, categoryByIdExists, userByIdExists } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');
 const { groupByIdExists } = require('../middlewares/db-validators');
+const { check } = require('express-validator');
 
 const router = new Router();
 
