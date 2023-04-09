@@ -2,10 +2,12 @@ const { request, response } = require('express');
 const Brand = require('../models/brand');
 
 const getBrands = async( req = request, res = response ) => {
-    const { limit = 5, from = 0 } = req.body;
+    
+    const { userId: id } = req.params;
+    const { limit = 5, from = 0 } = req.query;
 
     try {
-        const { count, rows } = await Brand.findAndCountAll({ where: { state: true }, limit, offset: from });
+        const { count, rows } = await Brand.findAndCountAll({ where: { created_by: id }, limit, offset: from });
 
         res.json({
             ok: true,
@@ -40,7 +42,7 @@ const createBrand = async( req = request, res = response ) => {
         console.log( error );
         res.status(500).json({
             ok: false,
-            msg: 'Error creating new brand'
+            msg: 'Error creating brand'
         })
     }
 }

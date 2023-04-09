@@ -1,13 +1,17 @@
 const { Router } = require('express');
-const { check } = requre('express-validator');
+const { check } = require('express-validator');
 const { getBrands, createBrand, updateBrand, deleteBrand } = require('../controllers/brands');
-const { brandExists, brandByIdExists, isBrandCreatedByUser } = require('../middlewares/db-validators');
+const { brandExists, brandByIdExists, isBrandCreatedByUser, userByIdExists } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
 
 const router = new Router();
 
-router.get( '/', getBrands );
+router.get( '/:userId', [
+    check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
+    check( 'userId' ).custom( userByIdExists ),
+    validateFields
+], getBrands );
 
 router.post( '/', [
     validateJWT,
@@ -21,12 +25,10 @@ router.put( '/:id', [
     check( 'id', 'Id is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( brandByIdExists ),
     check( 'id' ).custom( isBrandCreatedByUser ),
-    check( 'state', 'State is mandatory' ).not().isEmpty(),
-    check( 'state', 'State can only be setted to a boolean value' ).isBoolean(),
     validateFields
 ], updateBrand );
 
-router.delete( '/:id' [
+router.delete( '/:id', [
     validateJWT,
     check( 'id', 'ID is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( brandByIdExists ),

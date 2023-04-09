@@ -28,10 +28,11 @@ const createGroup = async( req = request, res = response ) => {
 
 const getGroups = async( req = request, res = response ) => {
 
+    const { userId: id } = req.params;
     const { from = 0, limit = 5 } = req.query;
 
     try {
-        const { count, rows } = await Group.findAndCountAll({ where: { state: true },limit, offset: from });
+        const { count, rows } = await Group.findAndCountAll({ where: { created_by: id }, limit, offset: from });
     
         res.json({
             ok: true,

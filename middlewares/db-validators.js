@@ -1,12 +1,18 @@
-const { User } = require('../models');
-const Brand = require('../models/brand');
-const Group = require('../models/group');
+const { User, AttributeGroup, Group, Brand, Attribute, Category, Product } = require('../models');
 
 const userByEmailDoesNotExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
 
     if( !user ) {
         throw new Error( 'User by email does not exist' );
+    }
+}
+
+const userByIdExists = async( id = '' ) => {
+    const user = await User.findByPk( id );
+
+    if( !user || !user.state ) {
+        throw new Error( 'User by ID does not exists' );
     }
 }
 
@@ -35,6 +41,14 @@ const userByEmailExists = async( email = '' ) => {
     }
 }
 
+const isUserCreatedByTheSameUser = async( id, { req } ) => {
+    const { id: uid } = req.user;
+
+    if( id !== uid ) {
+        throw new Error( 'You can only modify your account' );
+    }
+}
+
 const isGroupCreatedByUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
@@ -45,7 +59,7 @@ const isGroupCreatedByUser = async( id = '', { req } ) => {
     }
 }
 
-const brandExists = async( name = '' ) => {
+const brandExists = async( name = '', { req } ) => {
     const { id } = req.user;
 
     const brand = await Brand.findOne({ where: { name, created_by: id } });
@@ -72,6 +86,89 @@ const isBrandCreatedByUser = async( id = '', { req } ) => {
         throw new Error( 'Brand was not created by that user' );
     }
 }
+const attributeGroupExists = async( name = '', { req } ) => {
+    const { id } = req.user;
+
+    const attributeGroup = await AttributeGroup.findOne({ where: { name, created_by: id }});
+
+    if( attributeGroup ) {
+        throw new Error( 'Attribute group name already exists' );
+    }
+}
+
+const attributeGroupByIdExists = async( id = '' ) => {
+    const attributeGroup = await AttributeGroup.findByPk( id );
+
+    if( !attributeGroup ) {
+        throw new Error( 'Attribute group by ID does not exists' );
+    }
+}
+
+const isAttributeGroupCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const attributeGroup = await AttributeGroup.findByPk( id );
+
+    if( uid !== attributeGroup.created_by ) {
+        throw new Error( 'Attribute group was not created by that user' );
+    }
+}
+
+const attributeByIdExists = async( id = '' ) => {
+    const attribute = await Attribute.findByPk( id );
+
+    if( !attribute ) {
+        throw new Error( 'Attribute by ID does not exists' );
+    }
+}
+
+// TODO: created_by from attributegroup
+const isAttributeCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const attribute = await Attribute.findOne({ where: { id }})
+    const attributeGroup = await AttributeGroup.findByPk( attribute.group );
+
+    if( uid !== attributeGroup.created_by ) {
+        throw new Error( 'Attribute was not created by that user' );
+    }
+}
+
+const categoryExists = async( name = '' ) => {
+    const category = await Category.findOne({ where: { name }});
+
+    if( category ) {
+        throw new Error( 'Category name already exists' );
+    }
+}
+
+const categoryByIdExists = async( id = '' ) => {
+    const category = await Category.findByPk( id );
+
+    if( !category ) {
+        throw new Error( 'Category by ID does not exists' );
+    }
+}
+
+const isCategoryCreatedByUser = async( id = '', { req } ) => {
+
+    const { id: uid } = req.user;
+
+    const category = await Category.findByPk( id );
+
+    if( uid !== category.created_by ) {
+        throw new Error( 'Category was not created by that user' );
+    }
+}
+
+const productExists = async( name = '', { req } ) => {
+    const { id } = req.user;
+    const product = await Product.findOne({ where: { name, created_by: id } });
+
+    if( product ) {
+        throw new Error( 'Product name already exists' );
+    }
+}
 
 
 module.exports = {
@@ -82,5 +179,16 @@ module.exports = {
     groupExists,
     groupByIdExists,
     userByEmailExists,
-    isGroupCreatedByUser
+    isGroupCreatedByUser,
+    attributeGroupExists,
+    attributeGroupByIdExists,
+    isAttributeGroupCreatedByUser,
+    attributeByIdExists,
+    isAttributeCreatedByUser,
+    userByIdExists,
+    isUserCreatedByTheSameUser,
+    categoryExists,
+    categoryByIdExists,
+    isCategoryCreatedByUser,
+    productExists
 }

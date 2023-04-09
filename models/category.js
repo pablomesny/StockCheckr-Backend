@@ -2,12 +2,12 @@ const { DataTypes } = require("sequelize");
 const db = require("../database/connection");
 const User = require("./user");
 
-const Brand = db.define(
-    'Brand',
+const Category = db.define(
+    'Category',
     {
         id: {
             type: DataTypes.INTEGER,
-            autoIncrement: true, 
+            autoIncrement: true,
             primaryKey: true
         },
         name: {
@@ -26,22 +26,25 @@ const Brand = db.define(
                 key: 'id'
             }
         }
-    }, {
+    },
+    {
         timestamps: false,
         indexes: [
             {
                 unique: true,
                 fields: [ 'name', 'created_by' ]
             }
-        ]
-});
+        ]    
+    }
+);
 
-Brand.sync()
+Category.sync()
     .then( () => {
-        console.log( 'Brands table (re)created successfully' );
+        console.log( 'Categories table (re)created successfully' );
     })
     .catch( error => {
-        console.log( 'Error creating brands table', error );
+        console.log( 'Error creating categories table', error );
     })
 
-module.exports = Brand;
+
+module.exports = Category;

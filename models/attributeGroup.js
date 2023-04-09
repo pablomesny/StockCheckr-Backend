@@ -2,12 +2,11 @@ const { DataTypes } = require("sequelize");
 const db = require("../database/connection");
 const User = require("./user");
 
-const Brand = db.define(
-    'Brand',
-    {
+const AttributeGroup = db.define(
+    'Attribute Group', {
         id: {
             type: DataTypes.INTEGER,
-            autoIncrement: true, 
+            autoIncrement: true,
             primaryKey: true
         },
         name: {
@@ -36,12 +35,13 @@ const Brand = db.define(
         ]
 });
 
-Brand.sync()
+AttributeGroup.sync()
     .then( () => {
-        console.log( 'Brands table (re)created successfully' );
+        console.log( 'Attribute Groups table (re)created successfully' );
     })
     .catch( error => {
-        console.log( 'Error creating brands table', error );
+        console.log( 'Error creating Attributes Group table', error );
     })
 
-module.exports = Brand;
+
+module.exports = AttributeGroup;
