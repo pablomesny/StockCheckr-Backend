@@ -8,8 +8,6 @@ const { check } = require('express-validator');
 
 const router = new Router();
 
-// TODO: routes
-
 router.get( '/:userId', [
     check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
     check( 'userId' ).custom( userByIdExists ),
