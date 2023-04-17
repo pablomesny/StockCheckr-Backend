@@ -48,6 +48,47 @@ const createSalesGroup = async( req = request, res = response ) => {
 
 const updateSalesGroup = async( req = request, res = response ) => {
 
+    const { body } = req;
+    const { sales, totalPrice, paymentStatus, trackingNumber, ...rest } = body;
+
+    for( const [ key, value ] of Object.entries(...body) ) {
+        switch (key) {
+            case 'sales':
+                rest.sales = value;
+                break;
+
+            case 'totalPrice':
+                rest.totalPrice = value;
+                break;
+
+            case 'paymentStatus':
+                rest.paymentStatus = value;
+                break;
+
+            case 'trackingNumber':
+                rest.trackingNumber = value;
+                break;
+        
+        }
+    }
+
+    try {
+        await SalesGroup.update( rest, { where: { id }} );
+
+        const salesGroup = await SalesGroup.findByPk( id );
+
+        res.json({
+            ok: true,
+            salesGroup
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Error updating sales group'
+        })
+    }
 }
 
 
