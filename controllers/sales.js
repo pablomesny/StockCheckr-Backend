@@ -41,8 +41,9 @@ const createSale = async( req = request, res = response ) => {
         }
 
         const productStock = product.stock - amount;
+        const state = productStock > 0;
 
-        await Product.update({ stock: productStock }, { where: productId });
+        await Product.update({ stock: productStock, state }, { where: productId });
         await sale.save();
 
         res.status(201).json({
