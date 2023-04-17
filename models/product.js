@@ -6,6 +6,8 @@ const Category = require("./category");
 const Attribute = require("./attribute");
 const User = require("./user");
 
+const sizes = [ 'Unique', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL' ];
+
 const Product = db.define(
     'Product',
     {
@@ -30,19 +32,19 @@ const Product = db.define(
         sale_price: {
             type: DataTypes.INTEGER,
         },
-        group: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: Group,
-                key: 'id'
-            }
-        },
         brand: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: Brand,
+                key: 'id'
+            }
+        },
+        group: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: Group,
                 key: 'id'
             }
         },
@@ -56,10 +58,15 @@ const Product = db.define(
         },
         attribute: {
             type: DataTypes.INTEGER,
+            allowNull: true,
             references: {
                 model: Attribute,
                 key: 'id'
             }
+        },
+        size: {
+            type: DataTypes.ENUM(...sizes),
+            allowNull: false
         },
         stock: {
             type: DataTypes.INTEGER,

@@ -5,6 +5,7 @@ const AttributeGroup = require('./attributeGroup');
 const Category = require('./category');
 const Attribute = require('./attribute');
 const Product = require('./product');
+const Sale = require('./sale');
 
 
 module.exports = {

@@ -1,4 +1,5 @@
 const { User, AttributeGroup, Group, Brand, Attribute, Category, Product } = require('../models');
+const Sale = require('../models/sale');
 
 const userByEmailDoesNotExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
@@ -170,6 +171,32 @@ const productExists = async( name = '', { req } ) => {
     }
 }
 
+const productByIdExists = async( id = '' ) => {
+    const product = await Product.findByPk( id );
+
+    if( !product ) {
+        throw new Error ( 'Product by ID does not exists' );
+    }
+}
+
+const isProductCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const product = await Product.findByPk( id );
+
+    if( product.created_by !== uid ) {
+        throw new Error( 'Product was not created by that user' );
+    }
+}
+
+const saleByIdExists = async( id = '' ) => {
+    const sale = await Sale.findByPk( id );
+
+    if( !sale ) {
+        throw new Error ( 'Sale by ID does not exists' );
+    }
+}
+
 
 module.exports = {
     brandExists,
@@ -190,5 +217,8 @@ module.exports = {
     categoryExists,
     categoryByIdExists,
     isCategoryCreatedByUser,
-    productExists
+    productExists,
+    productByIdExists,
+    isProductCreatedByUser,
+    saleByIdExists
 }
