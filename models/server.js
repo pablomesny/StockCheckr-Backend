@@ -16,7 +16,8 @@ class Server {
             categories: '/api/categories',
             attributes: '/api/attributes',
             products: '/api/products',
-            sales: '/api/sales'
+            sales: '/api/sales',
+            salesGroups: '/api/sales/groups'
         };
 
         this.dbConnection();
@@ -51,6 +52,7 @@ class Server {
         this.app.use( this.routePaths.attributes, require('../models/attribute') );
         this.app.use( this.routePaths.products, require('../routes/products') );
         this.app.use( this.routePaths.sales, require('../routes/sales') );
+        this.app.use( this.routePaths.salesGroups, require('../routes/salesGroups') );
     }
 
     listen() {
