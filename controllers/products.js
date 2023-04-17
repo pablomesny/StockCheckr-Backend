@@ -23,7 +23,26 @@ const getProducts = async( req = request, res = response ) => {
             msg: 'Error retrieving products'
         })
     }
+}
 
+const getProductById = async( req = request, res = response ) => {
+    const { id } = req.params;
+
+    try {
+        const product = await Product.findByPk( id );
+
+        res.json({
+            ok: true,
+            product
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error retrieving product by ID'
+        })
+    }
 }
 
 const createProduct = async( req = request, res = response ) => {
@@ -116,6 +135,7 @@ const deleteProduct = ( req = request, res = response ) => {
 
 module.exports = {
     getProducts,
+    getProductById,
     createProduct,
     updateProduct,
     deleteProduct

@@ -171,6 +171,14 @@ const productExists = async( name = '', { req } ) => {
     }
 }
 
+const productByIdExists = async( id = '' ) => {
+    const product = await Product.findByPk( id );
+
+    if( !product ) {
+        throw new Error ( 'Product by ID does not exists' );
+    }
+}
+
 const saleByIdExists = async( id = '' ) => {
     const sale = await Sale.findByPk( id );
 
@@ -200,5 +208,6 @@ module.exports = {
     categoryByIdExists,
     isCategoryCreatedByUser,
     productExists,
+    productByIdExists,
     saleByIdExists
 }
