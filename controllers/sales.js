@@ -69,7 +69,7 @@ const getSaleById = async( req = request, res = response ) => {
 
 const createSale = async( req = request, res = response ) => {
 
-    const { userId: id } = req.params;
+    const { id } = req.user;
     const { product: productId, amount, price } = req.body;
 
     try {

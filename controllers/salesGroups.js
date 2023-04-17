@@ -44,11 +44,15 @@ const createSalesGroup = async( req = request, res = response ) => {
             msg: 'Error creating sales group'
         })
     }
+}
+
+const updateSalesGroup = async( req = request, res = response ) => {
 
 }
 
 
 module.exports = {
     getSalesGroups,
-    createSalesGroup
+    createSalesGroup,
+    updateSalesGroup
 }

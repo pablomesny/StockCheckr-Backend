@@ -22,10 +22,8 @@ router.get( '/sale/:id', [
     validateFields
 ], getSaleById );
 
-router.post( '/:userId', [
+router.post( '/', [
     validateJWT,
-    check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
-    check( 'userId' ).custom( userByIdExists ),
     check( 'product', 'Product is mandatory' ).not().isEmpty(),
     validateFields
 ], createSale );
