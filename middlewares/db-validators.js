@@ -193,7 +193,15 @@ const productsByBrandExist = async( id = '' ) => {
     const products = await Product.findAll({ where: { brand: id } });
 
     if( !products ) {
-        throw new Error( 'No product was created with that brand' );
+        throw new Error( 'No product exists with that brand' );
+    }
+}
+
+const productsByCategoryExist = async( id = '' ) => {
+    const products = await Product.findAll({ where: { category: id } });
+
+    if( !products ) {
+        throw new Error( 'No product exists with that category' );
     }
 }
 
@@ -229,5 +237,6 @@ module.exports = {
     productByIdExists,
     isProductCreatedByUser,
     productsByBrandExist,
+    productsByCategoryExist,
     saleByIdExists
 }
