@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { createProduct, getProducts, updateProduct, getProductById, deleteProduct } = require('../controllers/products');
+const { createProduct, getProducts, updateProduct, getProductById, deleteProduct, getProductsByBrand } = require('../controllers/products');
 const validateJWT = require('../middlewares/validate-jwt');
 const { productExists, brandByIdExists, categoryByIdExists, userByIdExists, productByIdExists, isProductCreatedByUser } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');
@@ -19,6 +19,12 @@ router.get( '/product/:id', [
     check( 'id' ).custom( productByIdExists ),
     validateFields
 ], getProductById );
+
+router.get( '/brand/:id', [
+    check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( brandByIdExists ),
+    validateFields
+], getProductsByBrand );
 
 router.post( '/', [
     validateJWT,
