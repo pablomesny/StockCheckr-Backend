@@ -213,6 +213,16 @@ const saleByIdExists = async( id = '' ) => {
     }
 }
 
+const isSaleCreatedByUser = async( id, { req } ) => {
+    const { id } = req.user;
+
+    const sale = await User.findByPk( id );
+
+    if( sale.created_by !== id ) {
+        throw new Error( 'Sale was not created by that user' );
+    }
+}
+
 
 module.exports = {
     brandExists,
@@ -238,5 +248,6 @@ module.exports = {
     isProductCreatedByUser,
     productsByBrandExist,
     productsByCategoryExist,
-    saleByIdExists
+    saleByIdExists,
+    isSaleCreatedByUser
 }
