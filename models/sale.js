@@ -21,7 +21,7 @@ const Sale = db.define( 'Sale', {
         type: DataTypes.INTEGER,
         defaultValue: 1
     },
-    client_id: {
+    created_by: {
         type: DataTypes.INTEGER,
         references: {
             model: User,

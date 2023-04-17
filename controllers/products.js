@@ -4,7 +4,7 @@ const { Product } = require("../models");
 const getProducts = async( req = request, res = response ) => {
 
     const { userId: id } = req.params;
-    const { from = 0, limit = 5 } = req.body;
+    const { from = 0, limit = 5 } = req.query;
 
     try {
         

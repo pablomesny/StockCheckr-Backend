@@ -43,6 +43,7 @@ router.put( '/:id', [
 router.delete( ':id', [
     validateJWT,
     check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom(),
     validateFields
 ], updateProduct );
 
