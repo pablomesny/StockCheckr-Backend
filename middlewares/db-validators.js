@@ -179,6 +179,16 @@ const productByIdExists = async( id = '' ) => {
     }
 }
 
+const isProductCreatedByUser = async( id = '', { req } ) => {
+    const { id: uid } = req.user;
+
+    const product = await Product.findByPk( id );
+
+    if( product.created_by !== uid ) {
+        throw new Error( 'Product was not created by that user' );
+    }
+}
+
 const saleByIdExists = async( id = '' ) => {
     const sale = await Sale.findByPk( id );
 
@@ -209,5 +219,6 @@ module.exports = {
     isCategoryCreatedByUser,
     productExists,
     productByIdExists,
+    isProductCreatedByUser,
     saleByIdExists
 }

@@ -128,8 +128,29 @@ const updateProduct = async( req = request, res = response ) => {
     }
 }
 
-const deleteProduct = ( req = request, res = response ) => {
+const deleteProduct = async( req = request, res = response ) => {
 
+    const { id } = req.params;
+
+    try {
+        const product = await Product.findByPk( id );
+
+        await product.destroy();
+
+        res.json({
+            ok: true,
+            msg: `Product ${ product.name } destroyed successfully`
+        })
+        
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error destroying product'
+        })
+    }
+    
 }
 
 
