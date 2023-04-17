@@ -25,6 +25,10 @@ const Product = db.define(
             unique: true,
             allowNull: false
         },
+        images: {
+            type: DataTypes.ARRAY,
+            allowNull: true
+        },
         price: {
             type: DataTypes.INTEGER,
             allowNull: false

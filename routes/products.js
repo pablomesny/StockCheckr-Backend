@@ -1,14 +1,12 @@
 const { Router } = require('express');
-const { createProduct, getProducts, updateProduct, getProductById, deleteProduct } = require('../controllers/products');
+const { createProduct, getProducts, updateProduct, getProductById, deleteProduct, getProductsByBrand, getProductsByCategory } = require('../controllers/products');
 const validateJWT = require('../middlewares/validate-jwt');
-const { productExists, brandByIdExists, categoryByIdExists, userByIdExists, productByIdExists, isProductCreatedByUser } = require('../middlewares/db-validators');
+const { productExists, brandByIdExists, categoryByIdExists, userByIdExists, productByIdExists, isProductCreatedByUser, productsByBrandExist, productsByCategoryExist } = require('../middlewares/db-validators');
 const validateFields = require('../middlewares/validate-fields');
 const { groupByIdExists } = require('../middlewares/db-validators');
 const { check } = require('express-validator');
 
 const router = new Router();
-
-// TODO: routes
 
 router.get( '/:userId', [
     check( 'userId', 'User ID is mandatory' ).not().isEmpty(),
@@ -21,6 +19,19 @@ router.get( '/product/:id', [
     check( 'id' ).custom( productByIdExists ),
     validateFields
 ], getProductById );
+
+router.get( '/brand/:id', [
+    check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( brandByIdExists ),
+    check( 'id' ).custom( productsByBrandExist ),
+    validateFields
+], getProductsByBrand );
+
+router.get( '/category/:id', [
+    check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( categoryByIdExists ),
+    check( 'id' ).custom( productsByCategoryExist ),
+], getProductsByCategory );
 
 router.post( '/', [
     validateJWT,

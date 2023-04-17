@@ -1,5 +1,6 @@
 const { User, AttributeGroup, Group, Brand, Attribute, Category, Product } = require('../models');
 const Sale = require('../models/sale');
+const SalesGroup = require('../models/salesGroup');
 
 const userByEmailDoesNotExists = async( email = "" ) => {
     const user = await User.findOne({ where: { email }});
@@ -189,11 +190,45 @@ const isProductCreatedByUser = async( id = '', { req } ) => {
     }
 }
 
+const productsByBrandExist = async( id = '' ) => {
+    const products = await Product.findAll({ where: { brand: id } });
+
+    if( !products ) {
+        throw new Error( 'No product exists with that brand' );
+    }
+}
+
+const productsByCategoryExist = async( id = '' ) => {
+    const products = await Product.findAll({ where: { category: id } });
+
+    if( !products ) {
+        throw new Error( 'No product exists with that category' );
+    }
+}
+
 const saleByIdExists = async( id = '' ) => {
     const sale = await Sale.findByPk( id );
 
     if( !sale ) {
         throw new Error ( 'Sale by ID does not exists' );
+    }
+}
+
+const isSaleCreatedByUser = async( id, { req } ) => {
+    const { id } = req.user;
+
+    const sale = await User.findByPk( id );
+
+    if( sale.created_by !== id ) {
+        throw new Error( 'Sale was not created by that user' );
+    }
+}
+
+const salesGroupByIdExists = async( id = '' ) => {
+    const salesGroup = await SalesGroup.findByPk( id );
+
+    if( !salesGroup ) {
+        throw new Error( 'Sales group by ID does not exists' );
     }
 }
 
@@ -220,5 +255,9 @@ module.exports = {
     productExists,
     productByIdExists,
     isProductCreatedByUser,
-    saleByIdExists
+    productsByBrandExist,
+    productsByCategoryExist,
+    saleByIdExists,
+    isSaleCreatedByUser,
+    salesGroupByIdExists
 }

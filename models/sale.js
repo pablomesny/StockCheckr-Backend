@@ -21,6 +21,10 @@ const Sale = db.define( 'Sale', {
         type: DataTypes.INTEGER,
         defaultValue: 1
     },
+    price: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
     created_by: {
         type: DataTypes.INTEGER,
         references: {

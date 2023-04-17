@@ -45,6 +45,51 @@ const getProductById = async( req = request, res = response ) => {
     }
 }
 
+const getProductsByBrand = async( req = request, res = response ) => {
+    const { id } = req.params;
+    const { limit = 5, from = 0 } = req.body;
+
+    try {
+        const { count, rows } = await Product.findAndCountAll({ where: { brand: id }, limit, offset: from });
+
+        res.json({
+            ok: true,
+            total: count,
+            products: rows
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error retrieving products by brand'
+        })
+    }
+}
+
+const getProductsByCategory = async( req = request, res = response ) => {
+
+    const { id } = req.params;
+    const { limit = 5, from = 0 } = req.body;
+
+    try {
+        const { count, rows } = await Product.findAndCountAll({ where: { category: id }, limit, offset: from });
+
+        res.json({
+            ok: true,
+            total: count,
+            products: rows
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error retrieving products by category'
+        })
+    }
+}
+
 const createProduct = async( req = request, res = response ) => {
 
     const { name, price, group, brand, category, attribute, stock } = req.body;
@@ -157,6 +202,8 @@ const deleteProduct = async( req = request, res = response ) => {
 module.exports = {
     getProducts,
     getProductById,
+    getProductsByBrand,
+    getProductsByCategory,
     createProduct,
     updateProduct,
     deleteProduct
