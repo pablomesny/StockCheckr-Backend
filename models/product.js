@@ -6,6 +6,8 @@ const Category = require("./category");
 const Attribute = require("./attribute");
 const User = require("./user");
 
+const sizes = [ 'Unique', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL' ];
+
 const Product = db.define(
     'Product',
     {
@@ -60,6 +62,10 @@ const Product = db.define(
                 model: Attribute,
                 key: 'id'
             }
+        },
+        size: {
+            type: DataTypes.ENUM(...sizes),
+            allowNull: false
         },
         stock: {
             type: DataTypes.INTEGER,
