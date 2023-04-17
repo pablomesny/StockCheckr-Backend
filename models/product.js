@@ -32,19 +32,19 @@ const Product = db.define(
         sale_price: {
             type: DataTypes.INTEGER,
         },
-        group: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: Group,
-                key: 'id'
-            }
-        },
         brand: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: Brand,
+                key: 'id'
+            }
+        },
+        group: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: Group,
                 key: 'id'
             }
         },
@@ -58,6 +58,7 @@ const Product = db.define(
         },
         attribute: {
             type: DataTypes.INTEGER,
+            allowNull: true,
             references: {
                 model: Attribute,
                 key: 'id'
