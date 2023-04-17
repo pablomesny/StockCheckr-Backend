@@ -189,6 +189,14 @@ const isProductCreatedByUser = async( id = '', { req } ) => {
     }
 }
 
+const productsByBrandExist = async( id = '' ) => {
+    const products = await Product.findAll({ where: { brand: id } });
+
+    if( !products ) {
+        throw new Error( 'No product was created with that brand' );
+    }
+}
+
 const saleByIdExists = async( id = '' ) => {
     const sale = await Sale.findByPk( id );
 
@@ -220,5 +228,6 @@ module.exports = {
     productExists,
     productByIdExists,
     isProductCreatedByUser,
+    productsByBrandExist,
     saleByIdExists
 }
