@@ -144,10 +144,33 @@ const updateSale = async( req = request, res = response ) => {
     }
 }
 
+const deleteSale = async( req = request, res = response ) => {
+
+    const { id } = req.params;
+
+    try {
+        const sale = await Sale.findByPk( id );
+        await sale.destroy();
+
+        res.json({
+            ok: true,
+            msg: `Sale ID: ${ id } destroyed succesfully`
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Error destroying sale'
+        })
+    }
+}
+
 module.exports = {
     getSales,
     getSalesByUserId,
     getSaleById,
     createSale,
-    updateSale
+    updateSale,
+    deleteSale
 }

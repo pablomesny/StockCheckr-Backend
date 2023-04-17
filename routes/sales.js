@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getSales, createSale, getSalesByUserId, getSaleById, updateSale } = require('../controllers/sales');
+const { getSales, createSale, getSalesByUserId, getSaleById, updateSale, deleteSale } = require('../controllers/sales');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
 const { userByIdExists, saleByIdExists, isSaleCreatedByUser } = require('../middlewares/db-validators');
@@ -37,6 +37,14 @@ router.put( '/:id', [
     check( 'id' ).custom( isSaleCreatedByUser ),
     validateFields
 ], updateSale );
+
+router.delete( ':id', [
+    validateJWT,
+    check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( saleByIdExists ),
+    check( 'id' ).custom( isSaleCreatedByUser ),
+    validateFields
+], deleteSale );
 
 
 module.exports = router;
