@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getSalesGroups, createSalesGroup, updateSalesGroup } = require('../controllers/salesGroups');
+const { getSalesGroups, createSalesGroup, updateSalesGroup, deleteSalesGroup } = require('../controllers/salesGroups');
 const validateJWT = require('../middlewares/validate-jwt');
 const validateFields = require('../middlewares/validate-fields');
 const { salesGroupByIdExists } = require('../middlewares/db-validators');
@@ -21,6 +21,13 @@ router.put( '/:id', [
     check( 'id' ).custom( salesGroupByIdExists ),
     validateFields
 ], updateSalesGroup );
+
+router.delete( '/:id', [
+    validateJWT,
+    check( 'id', 'ID is mandatory' ).not().isEmpty(),
+    check( 'id' ).custom( salesGroupByIdExists ),
+    validateFields
+], deleteSalesGroup );
 
 
 module.exports = router;

@@ -91,9 +91,14 @@ const updateSalesGroup = async( req = request, res = response ) => {
     }
 }
 
+const deleteSalesGroup = async( req = request, res = response ) => {
+    
+}
+
 
 module.exports = {
     getSalesGroups,
     createSalesGroup,
-    updateSalesGroup
+    updateSalesGroup,
+    deleteSalesGroup
 }
