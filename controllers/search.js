@@ -45,8 +45,10 @@ const search = ( req = request, res = response ) => {
 
 const searchAttributeGroup = async( term, res = response ) => {
 
+    const regex = new RegExp( term, 'i' );
+
     try {
-        const results = await AttributeGroup.findAll({ where: { name: term } });
+        const results = await AttributeGroup.findAll({ where: { name: regex } });
 
         res.json({
             ok: true,
@@ -64,8 +66,11 @@ const searchAttributeGroup = async( term, res = response ) => {
 
 const searchBrand = async( term, res = response ) => {
 
+    
+    const regex = new RegExp( term, 'i' );
+
     try {
-        const results = await Brand.findAll({ where: { name: term } });
+        const results = await Brand.findAll({ where: { name: regex } });
 
         res.json({
             ok: true,
@@ -83,8 +88,10 @@ const searchBrand = async( term, res = response ) => {
 
 const searchCategory = async( term, res = response ) => {
 
+    const regex = new RegExp( term, 'i' );
+
     try {
-        const results = await Category.findAll({ where: { name: term } });
+        const results = await Category.findAll({ where: { name: regex } });
 
         res.json({
             ok: true,
@@ -102,8 +109,10 @@ const searchCategory = async( term, res = response ) => {
 
 const searchGroup = async( term, res = response ) => {
 
+    const regex = new RegExp( term, 'i' );
+
     try {
-        const results = await Group.findAll({ where: { name: term } });
+        const results = await Group.findAll({ where: { name: regex } });
 
         res.json({
             ok: true,
@@ -121,8 +130,10 @@ const searchGroup = async( term, res = response ) => {
 
 const searchProduct = async( term, res = response ) => {
 
+    const regex = new RegExp( term, 'i' );
+
     try {
-        const results = await Product.findAll({ where: { name: term } });
+        const results = await Product.findAll({ where: { name: regex } });
 
         res.json({
             ok: true,
