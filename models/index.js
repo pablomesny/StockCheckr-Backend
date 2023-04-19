@@ -6,6 +6,7 @@ const Category = require('./category');
 const Attribute = require('./attribute');
 const Product = require('./product');
 const Sale = require('./sale');
+const SalesGroup = require('./salesGroup');
 
 
 module.exports = {
@@ -15,5 +16,7 @@ module.exports = {
     AttributeGroup,
     Category,
     Attribute,
-    Product
+    Product,
+    Sale,
+    SalesGroup
 }

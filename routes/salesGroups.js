@@ -3,6 +3,7 @@ const { getSalesGroups, createSalesGroup, updateSalesGroup, deleteSalesGroup } =
 const validateJWT = require('../middlewares/validate-jwt');
 const validateFields = require('../middlewares/validate-fields');
 const { salesGroupByIdExists } = require('../middlewares/db-validators');
+const { check } = require('express-validator');
 
 const router = new Router();
 

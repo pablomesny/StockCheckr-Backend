@@ -2,7 +2,8 @@ const { Router } = require('express');
 const { getSales, createSale, getSalesByUserId, getSaleById, updateSale, deleteSale } = require('../controllers/sales');
 const validateFields = require('../middlewares/validate-fields');
 const validateJWT = require('../middlewares/validate-jwt');
-const { userByIdExists, saleByIdExists, isSaleCreatedByUser } = require('../middlewares/db-validators');
+const { userByIdExists, saleByIdExists, isSalecreated_byUser } = require('../middlewares/db-validators');
+const { check } = require('express-validator');
 
 const router = new Router();
 
@@ -32,7 +33,7 @@ router.put( '/:id', [
     validateJWT,
     check( 'id', 'ID is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( saleByIdExists ),
-    check( 'id' ).custom( isSaleCreatedByUser ),
+    check( 'id' ).custom( isSalecreated_byUser ),
     validateFields
 ], updateSale );
 
@@ -40,7 +41,7 @@ router.delete( ':id', [
     validateJWT,
     check( 'id', 'ID is mandatory' ).not().isEmpty(),
     check( 'id' ).custom( saleByIdExists ),
-    check( 'id' ).custom( isSaleCreatedByUser ),
+    check( 'id' ).custom( isSalecreated_byUser ),
     validateFields
 ], deleteSale );
 

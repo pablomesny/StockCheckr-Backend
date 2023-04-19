@@ -43,7 +43,7 @@ const userByEmailExists = async( email = '' ) => {
     }
 }
 
-const isUserCreatedByTheSameUser = async( id, { req } ) => {
+const isUsercreated_byTheSameUser = async( id, { req } ) => {
     const { id: uid } = req.user;
 
     if( id !== uid ) {
@@ -51,7 +51,7 @@ const isUserCreatedByTheSameUser = async( id, { req } ) => {
     }
 }
 
-const isGroupCreatedByUser = async( id = '', { req } ) => {
+const isGroupcreated_byUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
     const group = await Group.findByPk( id );
@@ -79,7 +79,7 @@ const brandByIdExists = async( id = '' ) => {
     }
 }
 
-const isBrandCreatedByUser = async( id = '', { req } ) => {
+const isBrandcreated_byUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
     const brand = await Brand.findByPk( id );
@@ -106,7 +106,7 @@ const attributeGroupByIdExists = async( id = '' ) => {
     }
 }
 
-const isAttributeGroupCreatedByUser = async( id = '', { req } ) => {
+const isAttributeGroupcreated_byUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
     const attributeGroup = await AttributeGroup.findByPk( id );
@@ -125,7 +125,7 @@ const attributeByIdExists = async( id = '' ) => {
 }
 
 // TODO: created_by from attributegroup
-const isAttributeCreatedByUser = async( id = '', { req } ) => {
+const isAttributecreated_byUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
     const attribute = await Attribute.findOne({ where: { id }})
@@ -152,7 +152,7 @@ const categoryByIdExists = async( id = '' ) => {
     }
 }
 
-const isCategoryCreatedByUser = async( id = '', { req } ) => {
+const isCategorycreated_byUser = async( id = '', { req } ) => {
 
     const { id: uid } = req.user;
 
@@ -180,7 +180,7 @@ const productByIdExists = async( id = '' ) => {
     }
 }
 
-const isProductCreatedByUser = async( id = '', { req } ) => {
+const isProductcreated_byUser = async( id = '', { req } ) => {
     const { id: uid } = req.user;
 
     const product = await Product.findByPk( id );
@@ -214,12 +214,12 @@ const saleByIdExists = async( id = '' ) => {
     }
 }
 
-const isSaleCreatedByUser = async( id, { req } ) => {
-    const { id } = req.user;
+const isSalecreated_byUser = async( id, { req } ) => {
+    const { id: uid } = req.user;
 
     const sale = await User.findByPk( id );
 
-    if( sale.created_by !== id ) {
+    if( sale.created_by !== uid ) {
         throw new Error( 'Sale was not created by that user' );
     }
 }
@@ -236,28 +236,28 @@ const salesGroupByIdExists = async( id = '' ) => {
 module.exports = {
     brandExists,
     brandByIdExists,
-    isBrandCreatedByUser,
+    isBrandcreated_byUser,
     userByEmailDoesNotExists,
     groupExists,
     groupByIdExists,
     userByEmailExists,
-    isGroupCreatedByUser,
+    isGroupcreated_byUser,
     attributeGroupExists,
     attributeGroupByIdExists,
-    isAttributeGroupCreatedByUser,
+    isAttributeGroupcreated_byUser,
     attributeByIdExists,
-    isAttributeCreatedByUser,
+    isAttributecreated_byUser,
     userByIdExists,
-    isUserCreatedByTheSameUser,
+    isUsercreated_byTheSameUser,
     categoryExists,
     categoryByIdExists,
-    isCategoryCreatedByUser,
+    isCategorycreated_byUser,
     productExists,
     productByIdExists,
-    isProductCreatedByUser,
+    isProductcreated_byUser,
     productsByBrandExist,
     productsByCategoryExist,
     saleByIdExists,
-    isSaleCreatedByUser,
+    isSalecreated_byUser,
     salesGroupByIdExists
 }

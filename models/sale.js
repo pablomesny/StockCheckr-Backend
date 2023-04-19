@@ -32,6 +32,8 @@ const Sale = db.define( 'Sale', {
             key: 'id'
         }
     }
+}, {
+    timestamps: false
 });
 
 Sale.sync()
